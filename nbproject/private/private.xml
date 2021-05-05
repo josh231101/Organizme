@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/organizme/Organizme.java</file>
-            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/organizme/Organizer.java</file>
-            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/organizme/RounderBorder.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/controller/TaskController.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/model/ConnectionSQL.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/view/NewTask.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/controller/FillClassListController.java</file>
             <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/organizme/MainPanel.java</file>
         </group>
     </open-files>

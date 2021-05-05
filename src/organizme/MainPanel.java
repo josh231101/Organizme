@@ -8,6 +8,8 @@ package organizme;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSetImpl;
+import controller.FillClassListController;
+import controller.FillTasksTableController;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,20 +19,36 @@ import javax.swing.JOptionPane;
 import java.sql.DriverManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.awt.Color;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import view.NewTask;
 /**
+ * 
  *
  * @author josuearreola
  */
 public class MainPanel extends javax.swing.JFrame {
-    public static final String URL = "jdbc:mysql://localhost:3306/company?characterEncoding=utf8&autoReconnet=true&useSSL=false";
+    public static final String URL = "jdbc:mysql://localhost:3306/organizme?characterEncoding=utf8&autoReconnet=true&useSSL=false";
     public static final String usuario = "root";
     public static final String password = "password";
 
     /**
      * Creates new form MainPanel
      */
+    /**
+     * CONTROLLER DECLARATION
+     */
+    FillClassListController filler = new FillClassListController();
+    FillTasksTableController fillerTasks = new FillTasksTableController();
     public MainPanel() {
         initComponents();
+        fillerTasks.fillTasksTableFromDB(taskTable);
+        filler.fillClassListFromDB(clasesList);
+        
     }
 
     /**
@@ -48,13 +66,7 @@ public class MainPanel extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         sidePanel = new javax.swing.JPanel();
-        classList = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         titulo = new javax.swing.JPanel();
@@ -62,13 +74,16 @@ public class MainPanel extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        clasesList = new javax.swing.JList<>();
+        jSeparator1 = new javax.swing.JSeparator();
         taskPanel = new javax.swing.JPanel();
         dateField = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         bdConnector = new javax.swing.JButton();
         addTask = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        taskTable = new javax.swing.JTable();
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -88,7 +103,7 @@ public class MainPanel extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1080, 640));
         getContentPane().setLayout(new java.awt.CardLayout());
 
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanel2.setBackground(new java.awt.Color(239, 239, 239));
         jPanel2.setMinimumSize(new java.awt.Dimension(280, 0));
@@ -105,89 +120,18 @@ public class MainPanel extends javax.swing.JFrame {
         sidePanel.setMinimumSize(new java.awt.Dimension(250, 0));
         sidePanel.setOpaque(false);
 
-        classList.setBackground(new java.awt.Color(112, 110, 251));
-        classList.setForeground(new java.awt.Color(255, 255, 255));
-        classList.setLayout(new java.awt.GridLayout(0, 1));
-
-        jButton5.setFocusPainted(false);
-        jButton5.setBackground(new java.awt.Color(112, 110, 251));
-        jButton5.setFont(new java.awt.Font("FreeSans", 1, 14)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Cálculo");
-        jButton5.setToolTipText("Click to open the class");
-        jButton5.setBorder(null);
-        jButton5.setMaximumSize(new java.awt.Dimension(50, 31));
-        jButton5.setMinimumSize(new java.awt.Dimension(250, 31));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        classList.add(jButton5);
-
-        jButton5.setFocusPainted(false);
-        jButton6.setBackground(new java.awt.Color(112, 110, 251));
-        jButton6.setFont(new java.awt.Font("FreeSans", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Álgebra Lineal");
-        jButton6.setToolTipText("Click to open the class");
-        jButton6.setBorder(null);
-        jButton6.setMaximumSize(new java.awt.Dimension(50, 31));
-        jButton6.setMinimumSize(new java.awt.Dimension(250, 31));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-        classList.add(jButton6);
-
-        jButton5.setFocusPainted(false);
-        jButton7.setBackground(new java.awt.Color(112, 110, 251));
-        jButton7.setFont(new java.awt.Font("FreeSans", 1, 14)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("POO");
-        jButton7.setToolTipText("Click to open the class");
-        jButton7.setBorder(null);
-        jButton7.setMaximumSize(new java.awt.Dimension(50, 31));
-        jButton7.setMinimumSize(new java.awt.Dimension(250, 31));
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-        classList.add(jButton7);
-
-        jButton5.setFocusPainted(false);
-        jButton8.setBackground(new java.awt.Color(112, 110, 251));
-        jButton8.setFont(new java.awt.Font("FreeSans", 1, 14)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 255, 255));
-        jButton8.setText("Antropología");
-        jButton8.setToolTipText("Click to open the class");
-        jButton8.setBorder(null);
-        jButton8.setMaximumSize(new java.awt.Dimension(50, 31));
-        jButton8.setMinimumSize(new java.awt.Dimension(250, 31));
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-        classList.add(jButton8);
-
         jPanel5.setBackground(new java.awt.Color(112, 110, 251));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 59, Short.MAX_VALUE)
+            .addGap(0, 87, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 23, Short.MAX_VALUE)
         );
-
-        jSeparator1.setBackground(new java.awt.Color(204, 204, 204));
-        jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("FreeSans", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -238,19 +182,38 @@ public class MainPanel extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Josué Arreola");
 
+        clasesList.setBackground(new java.awt.Color(112, 110, 251));
+        clasesList.setFont(new java.awt.Font("FreeSans", 1, 18)); // NOI18N
+        clasesList.setForeground(new java.awt.Color(255, 255, 255));
+        clasesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        clasesList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        clasesList.setDragEnabled(true);
+        Border emptyBorder = BorderFactory.createEmptyBorder();
+        clasesList.setBorder(emptyBorder);
+        DefaultListCellRenderer renderer = (DefaultListCellRenderer) clasesList.getCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        clasesList.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                clasesListFocusGained(evt);
+            }
+        });
+        clasesList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clasesListMouseClicked(evt);
+            }
+        });
+        clasesList.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                clasesListKeyPressed(evt);
+            }
+        });
+        jScrollPane2.setViewportView(clasesList);
+
         javax.swing.GroupLayout sidePanelLayout = new javax.swing.GroupLayout(sidePanel);
         sidePanel.setLayout(sidePanelLayout);
         sidePanelLayout.setHorizontalGroup(
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(classList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(titulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(sidePanelLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(sidePanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel6)
@@ -259,6 +222,15 @@ public class MainPanel extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(14, 14, 14))
+            .addComponent(jSeparator1)
+            .addGroup(sidePanelLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         sidePanelLayout.setVerticalGroup(
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,11 +242,11 @@ public class MainPanel extends javax.swing.JFrame {
                     .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel5)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(classList, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(133, 133, 133)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                .addGap(13, 13, 13)
                 .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -304,7 +276,10 @@ public class MainPanel extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setText("Tasks");
 
-        bdConnector.setText("CONECTAR LA BD");
+        bdConnector.setBackground(new java.awt.Color(112, 110, 251));
+        bdConnector.setFont(new java.awt.Font("FreeSans", 1, 14)); // NOI18N
+        bdConnector.setForeground(new java.awt.Color(255, 255, 255));
+        bdConnector.setText("Save Changes");
         bdConnector.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bdConnectorActionPerformed(evt);
@@ -324,16 +299,17 @@ public class MainPanel extends javax.swing.JFrame {
         });
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(null);
         jScrollPane1.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setMinimumSize(new java.awt.Dimension(20, 50));
 
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setForeground(new java.awt.Color(0, 0, 0));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        taskTable.setAutoCreateRowSorter(true);
+        taskTable.setBorder(null);
+        taskTable.setBackground(new java.awt.Color(255, 255, 255));
+        taskTable.setForeground(new java.awt.Color(0, 0, 0));
+        taskTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                { new Boolean(true), "In Progress", "HEllo", "Task", "10/10/2020"},
-                {null, null, null, null, null}
+                { new Boolean(true), "In Progress", "HEllo", "Task", "10/10/2020"}
             },
             new String [] {
                 "Checkbox", "Status", "Title", "Type", "Due date"
@@ -347,25 +323,28 @@ public class MainPanel extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTable1.setToolTipText("");
-        jTable1.setFocusable(false);
-        jTable1.setGridColor(new java.awt.Color(255, 255, 255));
-        jTable1.setIntercellSpacing(new java.awt.Dimension(0, 10));
-        jTable1.setMinimumSize(new java.awt.Dimension(0, 100));
-        jTable1.setRowHeight(32);
-        jTable1.setShowVerticalLines(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(10);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(10);
+        taskTable.setToolTipText("");
+        taskTable.setFocusable(false);
+        taskTable.setGridColor(new java.awt.Color(255, 255, 255));
+        taskTable.setIntercellSpacing(new java.awt.Dimension(0, 10));
+        taskTable.setMinimumSize(new java.awt.Dimension(0, 100));
+        taskTable.setRowHeight(32);
+        taskTable.setShowVerticalLines(false);
+        taskTable.getTableHeader().setForeground(new Color(255,255,255));
+        taskTable.setGridColor(new Color(255,255,255));
+        taskTable.getTableHeader().setBackground(new Color(112,110,251));
+        jScrollPane1.setViewportView(taskTable);
+        if (taskTable.getColumnModel().getColumnCount() > 0) {
+            taskTable.getColumnModel().getColumn(0).setResizable(false);
+            taskTable.getColumnModel().getColumn(0).setPreferredWidth(10);
+            taskTable.getColumnModel().getColumn(1).setResizable(false);
+            taskTable.getColumnModel().getColumn(1).setPreferredWidth(10);
+            taskTable.getColumnModel().getColumn(2).setResizable(false);
+            taskTable.getColumnModel().getColumn(2).setPreferredWidth(10);
+            taskTable.getColumnModel().getColumn(3).setResizable(false);
+            taskTable.getColumnModel().getColumn(3).setPreferredWidth(10);
+            taskTable.getColumnModel().getColumn(4).setResizable(false);
+            taskTable.getColumnModel().getColumn(4).setPreferredWidth(10);
         }
 
         javax.swing.GroupLayout taskPanelLayout = new javax.swing.GroupLayout(taskPanel);
@@ -379,7 +358,7 @@ public class MainPanel extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bdConnector))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
                     .addGroup(taskPanelLayout.createSequentialGroup()
                         .addComponent(dateField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -416,18 +395,6 @@ public class MainPanel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        try {
-            // TODO add your handling code here:
-            String[] cmd = {"bash","-c","google-chrome https://meet.google.com/gdy-gwgq-svy"};
-            Process p = Runtime.getRuntime().exec(cmd);
-            Runtime.getRuntime().exec(new String[]{"bash", "-c", "/path/to/chrome https://meet.google.com/gdy-gwgq-svy"});
-        } catch (IOException ex) {
-            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void bdConnectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bdConnectorActionPerformed
         // TODO add your handling code here:
         // BD CONNECTOR
@@ -451,20 +418,29 @@ public class MainPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_bdConnectorActionPerformed
 
     private void addTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTaskActionPerformed
-        // TODO add your handling code here:
+        System.out.println("CLicked!");
+        NewTask taskPanel = new NewTask();
+        taskPanel.setVisible(true);
+        System.out.println(taskPanel.taskName.getText());
     }//GEN-LAST:event_addTaskActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void clasesListFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_clasesListFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+        System.out.println("ok");
+        System.out.println(evt.getID());
+    }//GEN-LAST:event_clasesListFocusGained
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void clasesListKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_clasesListKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+        System.out.println("KEY PRESSED");
+    }//GEN-LAST:event_clasesListKeyPressed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void clasesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clasesListMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+        System.out.println("hola amigos");
+        clasesList.getSelectedIndex();
+        System.out.println(clasesList.getSelectedIndex());
+    }//GEN-LAST:event_clasesListMouseClicked
 
     public Connection getConnection(){
         // return a new connection
@@ -508,21 +484,17 @@ public class MainPanel extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+            public void run() {                
                 new MainPanel().setVisible(true);
             }
         });
     }
-
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addTask;
     private javax.swing.JButton bdConnector;
-    private javax.swing.JPanel classList;
+    private javax.swing.JList<String> clasesList;
     private javax.swing.JLabel dateField;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -535,11 +507,12 @@ public class MainPanel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel sidePanel;
     private javax.swing.JPanel taskPanel;
+    private javax.swing.JTable taskTable;
     private javax.swing.JPanel titulo;
     // End of variables declaration//GEN-END:variables
 }

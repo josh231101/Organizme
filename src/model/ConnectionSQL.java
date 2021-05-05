@@ -17,7 +17,7 @@ import static organizme.MainPanel.usuario;
  * @author josuearreola
  */
 public class ConnectionSQL {
-    public static final String URL = "jdbc:mysql://localhost:3306/company?characterEncoding=utf8&autoReconnet=true&useSSL=false";
+    public static final String URL = "jdbc:mysql://localhost:3306/organizme?characterEncoding=utf8&autoReconnet=true&useSSL=false";
     public static final String usuario = "root";
     public static final String password = "password";
 
@@ -29,7 +29,6 @@ public class ConnectionSQL {
         try {
            Class.forName("com.mysql.jdbc.Driver");
            conexion = (Connection) DriverManager.getConnection(URL,usuario,password);
-            JOptionPane.showMessageDialog(null, "Conexión exitosa");
         } catch(Exception e) {
             System.err.println("Error" + e);
         }
