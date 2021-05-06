@@ -20,34 +20,37 @@ import java.sql.DriverManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import model.ConnectionSQL;
+import model.Task;
 import view.NewTask;
+import view.TaskInfo;
 /**
  * 
  *
  * @author josuearreola
  */
 public class MainPanel extends javax.swing.JFrame {
-    public static final String URL = "jdbc:mysql://localhost:3306/organizme?characterEncoding=utf8&autoReconnet=true&useSSL=false";
-    public static final String usuario = "root";
-    public static final String password = "password";
-
     /**
      * Creates new form MainPanel
      */
     /**
      * CONTROLLER DECLARATION
      */
-    FillClassListController filler = new FillClassListController();
+    FillClassListController fillerClases = new FillClassListController();
     FillTasksTableController fillerTasks = new FillTasksTableController();
+    
     public MainPanel() {
         initComponents();
         fillerTasks.fillTasksTableFromDB(taskTable);
-        filler.fillClassListFromDB(clasesList);
+        fillerClases.fillClassListFromDB(clasesList);
         
     }
 
@@ -183,11 +186,13 @@ public class MainPanel extends javax.swing.JFrame {
         jLabel5.setText("Josué Arreola");
 
         clasesList.setBackground(new java.awt.Color(112, 110, 251));
+        clasesList.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         clasesList.setFont(new java.awt.Font("FreeSans", 1, 18)); // NOI18N
         clasesList.setForeground(new java.awt.Color(255, 255, 255));
         clasesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         clasesList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         clasesList.setDragEnabled(true);
+        clasesList.setMinimumSize(new java.awt.Dimension(289, 10000));
         Border emptyBorder = BorderFactory.createEmptyBorder();
         clasesList.setBorder(emptyBorder);
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) clasesList.getCellRenderer();
@@ -227,10 +232,9 @@ public class MainPanel extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(149, Short.MAX_VALUE))
+            .addComponent(jScrollPane2)
         );
         sidePanelLayout.setVerticalGroup(
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -333,6 +337,11 @@ public class MainPanel extends javax.swing.JFrame {
         taskTable.getTableHeader().setForeground(new Color(255,255,255));
         taskTable.setGridColor(new Color(255,255,255));
         taskTable.getTableHeader().setBackground(new Color(112,110,251));
+        taskTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                taskTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(taskTable);
         if (taskTable.getColumnModel().getColumnCount() > 0) {
             taskTable.getColumnModel().getColumn(0).setResizable(false);
@@ -374,13 +383,14 @@ public class MainPanel extends javax.swing.JFrame {
                     .addComponent(bdConnector))
                 .addGroup(taskPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(taskPanelLayout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(dateField))
-                    .addGroup(taskPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addTask, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(taskPanelLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(dateField)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -398,7 +408,8 @@ public class MainPanel extends javax.swing.JFrame {
     private void bdConnectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bdConnectorActionPerformed
         // TODO add your handling code here:
         // BD CONNECTOR
-        Connection conexion = getConnection();
+        ConnectionSQL con = new ConnectionSQL();
+        Connection conexion = con.getConnection();
         PreparedStatement ps;
         ResultSetImpl rs;
         
@@ -421,7 +432,8 @@ public class MainPanel extends javax.swing.JFrame {
         System.out.println("CLicked!");
         NewTask taskPanel = new NewTask();
         taskPanel.setVisible(true);
-        System.out.println(taskPanel.taskName.getText());
+        
+        dispose();
     }//GEN-LAST:event_addTaskActionPerformed
 
     private void clasesListFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_clasesListFocusGained
@@ -442,19 +454,31 @@ public class MainPanel extends javax.swing.JFrame {
         System.out.println(clasesList.getSelectedIndex());
     }//GEN-LAST:event_clasesListMouseClicked
 
-    public Connection getConnection(){
-        // return a new connection
-        Connection conexion = null;
-        
+    private void taskTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_taskTableMouseClicked
+        // TODO add your handling code here:
+        int fila = taskTable.getSelectedRow();
+        String status = taskTable.getValueAt(fila, 1).toString();
+        String title = taskTable.getValueAt(fila, 2).toString();
+        String type = taskTable.getValueAt(fila, 3).toString();
+        SimpleDateFormat f= new SimpleDateFormat("yyyy-MM-dd");
+        int taskId = (int) Integer.parseInt(taskTable.getValueAt(fila,5).toString());
+        Date date;
         try {
-           Class.forName("com.mysql.jdbc.Driver");
-           conexion = (Connection) DriverManager.getConnection(URL,usuario,password);
-            JOptionPane.showMessageDialog(null, "Conexión exitosa");
-        } catch(Exception e) {
-            System.err.println("Error" + e);
+            date = f.parse(taskTable.getValueAt(fila, 4).toString());
+            System.out.println(date.getTime());
+            Task newTask = new Task(false, status, title, type, date.getTime(),taskId);
+            TaskInfo newTaskInfo = new TaskInfo(newTask);
+            newTaskInfo.setVisible(true);
+            
+            dispose();
+        } catch (ParseException ex) {
+            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return conexion;
-    }
+        
+        
+    }//GEN-LAST:event_taskTableMouseClicked
+
+   
     /**
      * @param args the command line arguments
      */
@@ -493,7 +517,7 @@ public class MainPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addTask;
     private javax.swing.JButton bdConnector;
-    private javax.swing.JList<String> clasesList;
+    public javax.swing.JList<String> clasesList;
     private javax.swing.JLabel dateField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

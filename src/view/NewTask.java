@@ -9,6 +9,8 @@ import com.toedter.calendar.JDateChooser;
 import controller.TaskController;
 import java.sql.Date;
 import javax.swing.JOptionPane;
+import organizme.MainPanel;
+import utils.Utils;
 
 /**
  *
@@ -41,6 +43,7 @@ public class NewTask extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         taskDate = new com.toedter.calendar.JDateChooser();
         saveTask = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -73,6 +76,13 @@ public class NewTask extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Back to Panel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -82,7 +92,8 @@ public class NewTask extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(saveTask)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -95,8 +106,8 @@ public class NewTask extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(taskDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)))
-                        .addGap(46, 46, 46))))
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)))))
+                .addGap(46, 46, 46))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +135,9 @@ public class NewTask extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(taskDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(103, 103, 103))))
+                        .addGap(45, 45, 45)
+                        .addComponent(jButton1)
+                        .addGap(27, 27, 27))))
         );
 
         pack();
@@ -136,23 +149,18 @@ public class NewTask extends javax.swing.JFrame {
 
     private void saveTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTaskActionPerformed
         // TODO add your handling code here:
-        System.out.println(taskName.getText());
         // CALL TASK CONTROLLER
         String task = taskName.getText();
         String type = taskType.getSelectedItem().toString();
         String status = taskStatus.getSelectedItem().toString();
-        System.out.println(task);
-        if(verifyDataFilled(task,taskDate)){
+        if(Utils.verifyDataTaskFilled(task,taskDate)){
             Date date = new Date(taskDate.getDate().getTime());
-
-            System.out.println(task);
-            System.out.println(status);
-            System.out.println(date);
-            System.out.println(type);
             TaskController newTask = new TaskController(task, type, status, date);
             boolean savedResult = newTask.saveTaskToDatabase();
             if(savedResult){
                 JOptionPane.showMessageDialog(null, "New Task Saved");
+                MainPanel mainPanel = new MainPanel();
+                mainPanel.setVisible(true);
                 dispose();
             }
             else{
@@ -161,25 +169,12 @@ public class NewTask extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_saveTaskActionPerformed
 
-    private boolean verifyDataFilled(String task,JDateChooser date){
-        if(task.isEmpty()){
-            JOptionPane.showMessageDialog(null, "You are missing task name");
-            return false;
-        }
-        else{
-            try{
-                long dateLong = date.getDate().getTime();
-                if(dateLong >= 0){
-                    return true;
-                }
-            }catch(Exception err){
-                JOptionPane.showMessageDialog(null, "You are missing due date");
-                return false;
-            }
-            
-        }    
-        return false;
-    }
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        MainPanel mp = new MainPanel();
+        mp.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -216,6 +211,7 @@ public class NewTask extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

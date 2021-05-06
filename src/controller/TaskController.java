@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.ConnectionSQL;
 
 /**
@@ -23,12 +24,45 @@ public class TaskController {
     private String taskType;
     private String taskStatus;
     private Date taskDate;
+    private boolean finished;
+    private int id;
 
     public TaskController(String taskName, String taskType, String taskStatus, Date taskDate) {
         this.taskName = taskName;
         this.taskType = taskType;
         this.taskStatus = taskStatus;
         this.taskDate = taskDate;
+    }
+
+    public TaskController(String taskName, String taskType, String taskStatus, Date taskDate, boolean finished,int id) {
+        this.taskName = taskName;
+        this.taskType = taskType;
+        this.taskStatus = taskStatus;
+        this.taskDate = taskDate;
+        this.finished = finished;
+        this.id = id;
+    }
+    public boolean updateTaskToDatabase(){
+        PreparedStatement ps = null;
+        ResultSetImpl rs= null;
+        try{
+            ConnectionSQL con = new ConnectionSQL();
+            Connection conexion = con.getConnection();
+            
+            ps = (PreparedStatement) conexion.prepareStatement("update tasks set due_date=?,title=?,task_type=?,status=?,finished=? WHERE id=?");
+            ps.setDate(1, getTaskDate());
+            ps.setString(2, getTaskName());
+            ps.setString(3, getTaskType());
+            ps.setString(4, getTaskStatus());
+            ps.setBoolean(5, isFinished());
+            ps.setInt(6, getId());
+            ps.executeUpdate();
+            return true;
+        }catch(Exception er){
+            System.err.println(er);
+            JOptionPane.showMessageDialog(null, "Uh? Algo ocurrió mal");
+            return false;
+        }
     }
     public boolean saveTaskToDatabase(){
         try{
@@ -54,6 +88,24 @@ public class TaskController {
         }
         return false;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+    
 
     public String getTaskName() {
         return taskName;

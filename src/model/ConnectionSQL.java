@@ -8,9 +8,6 @@ package model;
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
-import static organizme.MainPanel.URL;
-import static organizme.MainPanel.password;
-import static organizme.MainPanel.usuario;
 
 /**
  *
