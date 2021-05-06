@@ -1,6 +1,7 @@
 package utils;
 
 import com.toedter.calendar.JDateChooser;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /*
@@ -52,4 +53,28 @@ public class Utils {
         }    
         return false;
     }
+    public static void openClassFromLink(String URL) throws IOException{
+        switch(getUserSO().toLowerCase()){
+            case "linux":
+                Runtime.getRuntime().exec(new String[]{"bash", "-c", "google-chrome "+URL});
+                break;
+                
+            case "windows":
+                String script = "start chrome" + URL;
+                Runtime.getRuntime().exec(new String[]{"cmd", "/c", script});
+                break;
+            case "unix":
+            case "maxos":
+            case "macos":
+            default:
+                Runtime.getRuntime().exec(new String[]{"/usr/bin/open", "-a", "/Applications/Google Chrome.app", URL});
+                break;
+            
+        }
+    }
+    public static String getUserSO(){
+        // dry - spr
+        return System.getProperty("os.name");
+    }
+    
 }

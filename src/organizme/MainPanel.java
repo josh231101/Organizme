@@ -8,6 +8,7 @@ package organizme;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSetImpl;
+import controller.ClassListController;
 import controller.FillClassListController;
 import controller.FillTasksTableController;
 import java.io.IOException;
@@ -31,6 +32,7 @@ import javax.swing.border.Border;
 import model.ConnectionSQL;
 import model.Task;
 import view.NewTask;
+import utils.Utils;
 import view.TaskInfo;
 /**
  * 
@@ -80,6 +82,7 @@ public class MainPanel extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         clasesList = new javax.swing.JList<>();
         jSeparator1 = new javax.swing.JSeparator();
+        addClassBtn = new javax.swing.JButton();
         taskPanel = new javax.swing.JPanel();
         dateField = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -187,6 +190,7 @@ public class MainPanel extends javax.swing.JFrame {
 
         clasesList.setBackground(new java.awt.Color(112, 110, 251));
         clasesList.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        clasesList.setFixedCellHeight(50);
         clasesList.setFont(new java.awt.Font("FreeSans", 1, 18)); // NOI18N
         clasesList.setForeground(new java.awt.Color(255, 255, 255));
         clasesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -214,6 +218,12 @@ public class MainPanel extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(clasesList);
 
+        addClassBtn.setBackground(new java.awt.Color(112, 110, 251));
+        addClassBtn.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        addClassBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addClassBtn.setText("+");
+        addClassBtn.setToolTipText("Add a new class");
+
         javax.swing.GroupLayout sidePanelLayout = new javax.swing.GroupLayout(sidePanel);
         sidePanel.setLayout(sidePanelLayout);
         sidePanelLayout.setHorizontalGroup(
@@ -233,7 +243,9 @@ public class MainPanel extends javax.swing.JFrame {
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addClassBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
             .addComponent(jScrollPane2)
         );
         sidePanelLayout.setVerticalGroup(
@@ -250,10 +262,11 @@ public class MainPanel extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                .addGap(13, 13, 13)
+                .addGap(10, 10, 10)
                 .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addClassBtn))
                 .addGap(4, 4, 4))
         );
 
@@ -367,7 +380,7 @@ public class MainPanel extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bdConnector))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1202, Short.MAX_VALUE)
                     .addGroup(taskPanelLayout.createSequentialGroup()
                         .addComponent(dateField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -450,8 +463,15 @@ public class MainPanel extends javax.swing.JFrame {
     private void clasesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clasesListMouseClicked
         // TODO add your handling code here:
         System.out.println("hola amigos");
-        clasesList.getSelectedIndex();
+        String nombreClase = clasesList.getSelectedValue();
         System.out.println(clasesList.getSelectedIndex());
+        ClassListController clc = new ClassListController(nombreClase);
+        String URL_LINK = clc.getLinkToClassFromClassName();
+        if(!URL_LINK.isEmpty()){
+            Utils.openClassFromLink(URL_LINK);
+        }else{
+            JOptionPane.showMessageDialog(null, "Por el momento, el link a la clase no está disponible");
+        }
     }//GEN-LAST:event_clasesListMouseClicked
 
     private void taskTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_taskTableMouseClicked
@@ -515,6 +535,7 @@ public class MainPanel extends javax.swing.JFrame {
     }
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addClassBtn;
     private javax.swing.JButton addTask;
     private javax.swing.JButton bdConnector;
     public javax.swing.JList<String> clasesList;
