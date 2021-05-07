@@ -142,7 +142,6 @@ public class ClassListController extends ConnectionSQL{
         PreparedStatement ps = null;
         
         try {
-            System.out.println(clase.getTeacherName());
             ps = (PreparedStatement) conexion.prepareStatement("update clases set name=?,link=?,maestro=? WHERE id=?");
             ps.setString(1, clase.getClassName());
             ps.setString(2, clase.getLinkUrl());

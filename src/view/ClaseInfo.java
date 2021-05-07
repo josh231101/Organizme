@@ -161,7 +161,7 @@ public class ClaseInfo extends javax.swing.JFrame {
             cif.setVisible(true);
             dispose();
             
-            JOptionPane.showMessageDialog(null, "Clase eliminada!");
+            JOptionPane.showMessageDialog(null, "Cambios guardados!");
             
         }else{
             JOptionPane.showMessageDialog(null, "Reduce el número de caracteres :/!");

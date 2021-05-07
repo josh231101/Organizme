@@ -84,7 +84,6 @@ public class MainPanel extends javax.swing.JFrame {
         taskPanel = new javax.swing.JPanel();
         dateField = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        bdConnector = new javax.swing.JButton();
         addTask = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         taskTable = new javax.swing.JTable();
@@ -302,16 +301,6 @@ public class MainPanel extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setText("Tasks");
 
-        bdConnector.setBackground(new java.awt.Color(112, 110, 251));
-        bdConnector.setFont(new java.awt.Font("FreeSans", 1, 14)); // NOI18N
-        bdConnector.setForeground(new java.awt.Color(255, 255, 255));
-        bdConnector.setText("Save Changes");
-        bdConnector.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bdConnectorActionPerformed(evt);
-            }
-        });
-
         addTask.setFocusPainted(false);
         addTask.setBackground(new java.awt.Color(112, 110, 251));
         addTask.setForeground(new java.awt.Color(255, 255, 255));
@@ -389,8 +378,7 @@ public class MainPanel extends javax.swing.JFrame {
                 .addGroup(taskPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(taskPanelLayout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bdConnector))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1220, Short.MAX_VALUE)
                     .addGroup(taskPanelLayout.createSequentialGroup()
                         .addComponent(dateField)
@@ -402,9 +390,7 @@ public class MainPanel extends javax.swing.JFrame {
             taskPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(taskPanelLayout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addGroup(taskPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(bdConnector))
+                .addComponent(jLabel2)
                 .addGroup(taskPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(taskPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -428,10 +414,6 @@ public class MainPanel extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void bdConnectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bdConnectorActionPerformed
-
-    }//GEN-LAST:event_bdConnectorActionPerformed
 
     private void addTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTaskActionPerformed
         NewTask taskPanel = new NewTask();
@@ -540,7 +522,6 @@ public class MainPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addClassBtn;
     private javax.swing.JButton addTask;
-    private javax.swing.JButton bdConnector;
     private javax.swing.JLabel clasesInfo;
     public javax.swing.JList<String> clasesList;
     private javax.swing.JLabel dateField;
