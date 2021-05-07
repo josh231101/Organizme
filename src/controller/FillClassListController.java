@@ -15,7 +15,7 @@ import model.ConnectionSQL;
 
 /**
  *
- * @author josuearreola
+ * @author TEAM ORGANIZME
  */
 public class FillClassListController {
     
@@ -35,6 +35,7 @@ public class FillClassListController {
                 model.addElement(rs.getString("name"));
             }
             list.setModel(model);
+            conexion.close();
             
         }catch(Exception err){
             System.out.println(err.getMessage());

@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author josuearreola
+ * @author teamorganizme
  */
 public class ConnectionSQL {
     public static final String URL = "jdbc:mysql://localhost:3306/organizme?characterEncoding=utf8&autoReconnet=true&useSSL=false";

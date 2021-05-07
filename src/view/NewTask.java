@@ -9,6 +9,7 @@ import com.toedter.calendar.JDateChooser;
 import controller.TaskController;
 import java.sql.Date;
 import javax.swing.JOptionPane;
+import model.Task;
 import organizme.MainPanel;
 import utils.Utils;
 
@@ -155,8 +156,9 @@ public class NewTask extends javax.swing.JFrame {
         String status = taskStatus.getSelectedItem().toString();
         if(Utils.verifyDataTaskFilled(task,taskDate)){
             Date date = new Date(taskDate.getDate().getTime());
-            TaskController newTask = new TaskController(task, type, status, date);
-            boolean savedResult = newTask.saveTaskToDatabase();
+            TaskController ntController = new TaskController();
+            Task newTask = new Task(status, task, type, date);
+            boolean savedResult = ntController.saveTaskToDatabase(newTask);
             if(savedResult){
                 JOptionPane.showMessageDialog(null, "New Task Saved");
                 MainPanel mainPanel = new MainPanel();

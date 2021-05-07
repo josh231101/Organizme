@@ -3,12 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/view/TaskInfo.java</file>
             <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/controller/TaskController.java</file>
-            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/model/ConnectionSQL.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/controller/ClassListController.java</file>
             <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/view/NewTask.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/organizme/Organizme.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/utils/Utils.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/model/Clase.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/view/NewClassFrame.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/model/ConnectionSQL.java</file>
             <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/controller/FillTasksTableController.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/organizme/RounderBorder.java</file>
             <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/controller/FillClassListController.java</file>
             <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/organizme/MainPanel.java</file>
+            <file>file:/home/josuearreola/NetBeansProjects/orgnizt/Organizt/Organizme/src/view/clasesInfoFrame.java</file>
         </group>
     </open-files>
 </project-private>

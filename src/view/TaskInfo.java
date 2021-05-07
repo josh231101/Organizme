@@ -212,9 +212,10 @@ public class TaskInfo extends javax.swing.JFrame {
         
         if(Utils.verifyDataTaskFilled(task,taskDate)){
             java.sql.Date date = new java.sql.Date(taskDate.getDate().getTime());
+            Task taskUpdated = new Task(isFinished, status, task, type, date,Integer.parseInt(this.taskId.getText()));
             // DRY SPR
-            TaskController newTask = new TaskController(task, type, status, date,isFinished, taskId);
-            boolean savedResult = newTask.updateTaskToDatabase();
+            TaskController newTask = new TaskController();
+            boolean savedResult = newTask.updateTaskToDatabase(taskUpdated);
             if(savedResult){
                 JOptionPane.showMessageDialog(null, "Task Updated");
                 MainPanel mainPanel = new MainPanel();

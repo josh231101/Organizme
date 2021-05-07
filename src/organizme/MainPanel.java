@@ -10,34 +10,32 @@ import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSetImpl;
 import controller.ClassListController;
 import controller.FillClassListController;
-import controller.FillTasksTableController;
+import controller.TaskController;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import java.sql.DriverManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.Color;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.DefaultListModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import model.ConnectionSQL;
 import model.Task;
 import view.NewTask;
 import utils.Utils;
+import view.ClasesInfoFrame;
+import view.NewClassFrame;
 import view.TaskInfo;
 /**
  * 
  *
- * @author josuearreola
+ * @author TEAM ORGANIZME
  */
 public class MainPanel extends javax.swing.JFrame {
     /**
@@ -47,11 +45,11 @@ public class MainPanel extends javax.swing.JFrame {
      * CONTROLLER DECLARATION
      */
     FillClassListController fillerClases = new FillClassListController();
-    FillTasksTableController fillerTasks = new FillTasksTableController();
+    TaskController tkController = new TaskController();
     
     public MainPanel() {
         initComponents();
-        fillerTasks.fillTasksTableFromDB(taskTable);
+        tkController.fillTasksTableFromDB(taskTable);
         fillerClases.fillClassListFromDB(clasesList);
         
     }
@@ -72,7 +70,7 @@ public class MainPanel extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         sidePanel = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        clasesInfo = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         titulo = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -139,9 +137,14 @@ public class MainPanel extends javax.swing.JFrame {
             .addGap(0, 23, Short.MAX_VALUE)
         );
 
-        jLabel1.setFont(new java.awt.Font("FreeSans", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Settings");
+        clasesInfo.setFont(new java.awt.Font("FreeSans", 1, 12)); // NOI18N
+        clasesInfo.setForeground(new java.awt.Color(255, 255, 255));
+        clasesInfo.setText("Clases Info");
+        clasesInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                clasesInfoMouseClicked(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -186,7 +189,7 @@ public class MainPanel extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/img_1.jpg"))); // NOI18N
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Josué Arreola");
+        jLabel5.setText("Estudiante");
 
         clasesList.setBackground(new java.awt.Color(112, 110, 251));
         clasesList.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -194,6 +197,7 @@ public class MainPanel extends javax.swing.JFrame {
         clasesList.setFont(new java.awt.Font("FreeSans", 1, 18)); // NOI18N
         clasesList.setForeground(new java.awt.Color(255, 255, 255));
         clasesList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        clasesList.setToolTipText("Click to open class in Chrome");
         clasesList.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         clasesList.setDragEnabled(true);
         clasesList.setMinimumSize(new java.awt.Dimension(289, 10000));
@@ -223,6 +227,11 @@ public class MainPanel extends javax.swing.JFrame {
         addClassBtn.setForeground(new java.awt.Color(255, 255, 255));
         addClassBtn.setText("+");
         addClassBtn.setToolTipText("Add a new class");
+        addClassBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addClassBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout sidePanelLayout = new javax.swing.GroupLayout(sidePanel);
         sidePanel.setLayout(sidePanelLayout);
@@ -242,7 +251,7 @@ public class MainPanel extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(clasesInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addClassBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
@@ -264,7 +273,7 @@ public class MainPanel extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
                 .addGap(10, 10, 10)
                 .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clasesInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addClassBtn))
                 .addGap(4, 4, 4))
@@ -346,10 +355,12 @@ public class MainPanel extends javax.swing.JFrame {
         taskTable.setIntercellSpacing(new java.awt.Dimension(0, 10));
         taskTable.setMinimumSize(new java.awt.Dimension(0, 100));
         taskTable.setRowHeight(32);
+        taskTable.setShowHorizontalLines(false);
         taskTable.setShowVerticalLines(false);
         taskTable.getTableHeader().setForeground(new Color(255,255,255));
         taskTable.setGridColor(new Color(255,255,255));
         taskTable.getTableHeader().setBackground(new Color(112,110,251));
+        taskTable.getTableHeader().setReorderingAllowed(false);
         taskTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 taskTableMouseClicked(evt);
@@ -380,7 +391,7 @@ public class MainPanel extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bdConnector))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1202, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1220, Short.MAX_VALUE)
                     .addGroup(taskPanelLayout.createSequentialGroup()
                         .addComponent(dateField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -419,30 +430,10 @@ public class MainPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bdConnectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bdConnectorActionPerformed
-        // TODO add your handling code here:
-        // BD CONNECTOR
-        ConnectionSQL con = new ConnectionSQL();
-        Connection conexion = con.getConnection();
-        PreparedStatement ps;
-        ResultSetImpl rs;
-        
-        try{
-            ps = (PreparedStatement) conexion.prepareStatement("select * from employee");
-            rs = (ResultSetImpl) ps.executeQuery();
-            
-            while(rs.next()){
-                JOptionPane.showMessageDialog(null, "NOMbre:" + rs.getString("first_name"));
-            }
-            conexion.close();
-            
-        }catch(Exception e){
-            System.out.println("ERROR: "+ e);
-        }
-        
+
     }//GEN-LAST:event_bdConnectorActionPerformed
 
     private void addTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTaskActionPerformed
-        System.out.println("CLicked!");
         NewTask taskPanel = new NewTask();
         taskPanel.setVisible(true);
         
@@ -451,24 +442,24 @@ public class MainPanel extends javax.swing.JFrame {
 
     private void clasesListFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_clasesListFocusGained
         // TODO add your handling code here:
-        System.out.println("ok");
-        System.out.println(evt.getID());
     }//GEN-LAST:event_clasesListFocusGained
 
     private void clasesListKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_clasesListKeyPressed
         // TODO add your handling code here:
-        System.out.println("KEY PRESSED");
     }//GEN-LAST:event_clasesListKeyPressed
 
     private void clasesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clasesListMouseClicked
         // TODO add your handling code here:
-        System.out.println("hola amigos");
         String nombreClase = clasesList.getSelectedValue();
-        System.out.println(clasesList.getSelectedIndex());
         ClassListController clc = new ClassListController(nombreClase);
         String URL_LINK = clc.getLinkToClassFromClassName();
         if(!URL_LINK.isEmpty()){
-            Utils.openClassFromLink(URL_LINK);
+            try {
+                Utils.openClassFromLink(URL_LINK);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Por el momento, el link a la clase no está disponible");
+                Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }else{
             JOptionPane.showMessageDialog(null, "Por el momento, el link a la clase no está disponible");
         }
@@ -485,7 +476,6 @@ public class MainPanel extends javax.swing.JFrame {
         Date date;
         try {
             date = f.parse(taskTable.getValueAt(fila, 4).toString());
-            System.out.println(date.getTime());
             Task newTask = new Task(false, status, title, type, date.getTime(),taskId);
             TaskInfo newTaskInfo = new TaskInfo(newTask);
             newTaskInfo.setVisible(true);
@@ -497,6 +487,19 @@ public class MainPanel extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_taskTableMouseClicked
+
+    private void clasesInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clasesInfoMouseClicked
+        // OPEN CLASES INFO IN TABLE NEW PANEL :)
+        ClasesInfoFrame cif = new ClasesInfoFrame();
+        cif.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_clasesInfoMouseClicked
+
+    private void addClassBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClassBtnActionPerformed
+        NewClassFrame newClass = new NewClassFrame();
+        newClass.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_addClassBtnActionPerformed
 
    
     /**
@@ -538,9 +541,9 @@ public class MainPanel extends javax.swing.JFrame {
     private javax.swing.JButton addClassBtn;
     private javax.swing.JButton addTask;
     private javax.swing.JButton bdConnector;
+    private javax.swing.JLabel clasesInfo;
     public javax.swing.JList<String> clasesList;
     private javax.swing.JLabel dateField;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

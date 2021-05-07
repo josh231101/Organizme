@@ -6,10 +6,6 @@
 
 package organizme;
 
-/**
- * Ejercicio :
- * @author Josue David Arreola Aguilera ID:21637
- */
 public class Organizme {
 
     public static void main(String[] args) {

@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package model;
+
 import java.sql.Date;
+
 /**
  *
- * @author josuearreola
+ * @author TEAM ORGANIZME
  */
 public class Task {
     private boolean finished;
@@ -16,7 +19,10 @@ public class Task {
     private String type;
     private long dueDate;
     private int id;
+    private Date dateSQL;
 
+    
+    
     public Task(boolean finished, String status, String title, String type, long dueDate,int id) {
         this.finished = finished;
         this.status = status;
@@ -25,14 +31,50 @@ public class Task {
         this.dueDate = dueDate;
         this.id = id;
     }
+    
+    public Task(boolean finished, String status, String title, String type, Date dueDate,int id) {
+        this.finished = finished;
+        this.status = status;
+        this.title = title;
+        this.type = type;
+        this.dateSQL = dueDate;
+        this.id = id;
+    }
 
+    public Task(String status, String title, String type, long dueDate) {
+        this.status = status;
+        this.title = title;
+        this.type = type;
+        this.dueDate = dueDate;
+    }
+
+    public Task(String status, String title, String type, Date dateSQL) {
+        this.status = status;
+        this.title = title;
+        this.type = type;
+        this.dateSQL = dateSQL;
+    }
+    
+    public Date getDateFromLong(){
+        return new Date(this.getDueDate());
+    }
+
+    public Date getDateSQL() {
+        return dateSQL;
+    }
+
+    public void setDateSQL(Date dateSQL) {
+        this.dateSQL = dateSQL;
+    }
+    
+    
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
+    } 
     
     
     public boolean isFinished() {

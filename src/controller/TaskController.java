@@ -13,49 +13,72 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import model.ConnectionSQL;
+import model.Task;
 
 /**
  *
- * @author josuearreola
+ * @author TEAM ORGANIZME
  */
-public class TaskController {
-    private String taskName;
-    private String taskType;
-    private String taskStatus;
-    private Date taskDate;
-    private boolean finished;
-    private int id;
+public class TaskController extends ConnectionSQL{
+    
+    public TaskController(){}
+    
+    public void fillTasksTableFromDB(JTable table){
 
-    public TaskController(String taskName, String taskType, String taskStatus, Date taskDate) {
-        this.taskName = taskName;
-        this.taskType = taskType;
-        this.taskStatus = taskStatus;
-        this.taskDate = taskDate;
-    }
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+        table.setModel(modeloTabla);
+        try{
+            PreparedStatement ps = null;
+            ResultSetImpl rs= null;
+            
+            Connection conexion = getConnection();
 
-    public TaskController(String taskName, String taskType, String taskStatus, Date taskDate, boolean finished,int id) {
-        this.taskName = taskName;
-        this.taskType = taskType;
-        this.taskStatus = taskStatus;
-        this.taskDate = taskDate;
-        this.finished = finished;
-        this.id = id;
+            ps = (PreparedStatement) conexion.prepareStatement("select finished,status,title,task_type,due_date,id from tasks WHERE finished=0");
+            rs = (ResultSetImpl) ps.executeQuery();
+            
+            modeloTabla.addColumn("Completado");
+            modeloTabla.addColumn("Status");
+            modeloTabla.addColumn("Ttitle");
+            modeloTabla.addColumn("Type");
+            modeloTabla.addColumn("Due date");
+            modeloTabla.addColumn("ID");                   
+            while(rs.next()){
+                // DRY KISS
+                Object fila[] = new Object[modeloTabla.getColumnCount()];
+                for(int i = 0;i<modeloTabla.getColumnCount();i++){
+                    fila[i] = rs.getObject(i+1);
+                }
+                modeloTabla.addRow(fila);
+            }
+            conexion.close();
+            // Set widths
+            table.getColumnModel().getColumn(0).setPreferredWidth(25);
+            table.getColumnModel().getColumn(modeloTabla.getColumnCount()-1).setPreferredWidth(1);
+        }catch(Exception err){
+            JOptionPane.showMessageDialog(null,"No pudo cargarse la tabla :/");
+            System.err.println("Error loading table");
+        }
+        
+        
     }
-    public boolean updateTaskToDatabase(){
+    
+    
+    public boolean updateTaskToDatabase(Task task){
         PreparedStatement ps = null;
         ResultSetImpl rs= null;
         try{
-            ConnectionSQL con = new ConnectionSQL();
-            Connection conexion = con.getConnection();
+            Connection conexion = getConnection();
             
             ps = (PreparedStatement) conexion.prepareStatement("update tasks set due_date=?,title=?,task_type=?,status=?,finished=? WHERE id=?");
-            ps.setDate(1, getTaskDate());
-            ps.setString(2, getTaskName());
-            ps.setString(3, getTaskType());
-            ps.setString(4, getTaskStatus());
-            ps.setBoolean(5, isFinished());
-            ps.setInt(6, getId());
+            ps.setDate(1, task.getDateSQL());
+            ps.setString(2, task.getTitle());
+            ps.setString(3, task.getType());
+            ps.setString(4, task.getStatus());
+            ps.setBoolean(5, task.isFinished());
+            ps.setInt(6, task.getId());
             ps.executeUpdate();
             return true;
         }catch(Exception er){
@@ -64,18 +87,17 @@ public class TaskController {
             return false;
         }
     }
-    public boolean saveTaskToDatabase(){
+    public boolean saveTaskToDatabase(Task task){
         try{
             PreparedStatement ps = null;
             ResultSetImpl rs= null;
-            ConnectionSQL con = new ConnectionSQL();
-            Connection conexion = con.getConnection();
+            Connection conexion = getConnection();
             String statement = "insert into tasks(due_date,title,task_type,status,created_at,finished) values(?,?,?,?,?,?)";
             ps = (PreparedStatement) conexion.prepareStatement(statement);
-            ps.setDate(1, getTaskDate());
-            ps.setString(2, getTaskName());
-            ps.setString(3, getTaskType());
-            ps.setString(4, getTaskStatus());
+            ps.setDate(1, task.getDateSQL());
+            ps.setString(2, task.getTitle());
+            ps.setString(3, task.getType());
+            ps.setString(4, task.getStatus());
             ps.setDate(5, new Date(System.currentTimeMillis()));
             ps.setBoolean(6, false);
             ps.execute();
@@ -88,57 +110,5 @@ public class TaskController {
         }
         return false;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public void setFinished(boolean finished) {
-        this.finished = finished;
-    }
-    
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public String getTaskType() {
-        return taskType;
-    }
-
-    public void setTaskType(String taskType) {
-        this.taskType = taskType;
-    }
-
-    public String getTaskStatus() {
-        return taskStatus;
-    }
-
-    public void setTaskStatus(String taskStatus) {
-        this.taskStatus = taskStatus;
-    }
-
-    public Date getTaskDate() {
-        return taskDate;
-    }
-
-    public void setTaskDate(Date taskDate) {
-        this.taskDate = taskDate;
-    }
-    
-    
     
 }

@@ -125,7 +125,7 @@
                               <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
                               <Component id="jLabel3" min="-2" pref="29" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel1" min="-2" pref="72" max="-2" attributes="0"/>
+                              <Component id="clasesInfo" min="-2" pref="72" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="addClassBtn" min="-2" pref="47" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
@@ -151,7 +151,7 @@
                               <Component id="jScrollPane2" pref="319" max="32767" attributes="0"/>
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel1" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="clasesInfo" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                                   <Component id="jLabel3" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                                   <Component id="addClassBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -181,7 +181,7 @@
                         </DimensionLayout>
                       </Layout>
                     </Container>
-                    <Component class="javax.swing.JLabel" name="jLabel1">
+                    <Component class="javax.swing.JLabel" name="clasesInfo">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="FreeSans" size="12" style="1"/>
@@ -189,8 +189,11 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Settings"/>
+                        <Property name="text" type="java.lang.String" value="Clases Info"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="clasesInfoMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel3">
                       <Properties>
@@ -281,7 +284,7 @@
                         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Josu&#xe9; Arreola"/>
+                        <Property name="text" type="java.lang.String" value="Estudiante"/>
                       </Properties>
                     </Component>
                     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -311,6 +314,7 @@
                               <StringArray count="0"/>
                             </Property>
                             <Property name="selectionMode" type="int" value="0"/>
+                            <Property name="toolTipText" type="java.lang.String" value="Click to open class in Chrome"/>
                             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                               <Color id="Default Cursor"/>
                             </Property>
@@ -348,6 +352,9 @@
                         <Property name="text" type="java.lang.String" value="+"/>
                         <Property name="toolTipText" type="java.lang.String" value="Add a new class"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addClassBtnActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -375,7 +382,7 @@
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="bdConnector" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jScrollPane1" alignment="0" pref="1202" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane1" alignment="0" pref="1220" max="32767" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="dateField" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
@@ -567,9 +574,10 @@
                               <Dimension value="[0, 100]"/>
                             </Property>
                             <Property name="rowHeight" type="int" value="32"/>
+                            <Property name="showHorizontalLines" type="boolean" value="false"/>
                             <Property name="showVerticalLines" type="boolean" value="false" postCode="taskTable.getTableHeader().setForeground(new Color(255,255,255));&#xa;taskTable.setGridColor(new Color(255,255,255));&#xa;taskTable.getTableHeader().setBackground(new Color(112,110,251));"/>
                             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
-                              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                              <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                             </Property>
                           </Properties>
                           <Events>

@@ -2,6 +2,11 @@ package utils;
 
 import com.toedter.calendar.JDateChooser;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /*
@@ -16,7 +21,6 @@ import javax.swing.JOptionPane;
  */
 public class Utils {
     public static int getTaskTypeComboxIndex(String type){
-        System.out.println(type);
         switch(type){
             case "Task": return 0;
             case "Reminder": return 1;
@@ -26,7 +30,6 @@ public class Utils {
         }
     }
     public static int getTaskStatusComboxIndex(String status){
-        System.out.println(status);
         switch(status){
             case "Active" : return 0;
             case "In Progress": return 1 ;
@@ -41,9 +44,19 @@ public class Utils {
         }
         else{
             try{
+                // GET THE START DATE TO LONG TO COMPARE
+                Date dateHoy = Calendar.getInstance().getTime();  
+                DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");  
+                String strDate = dateFormat.format(dateHoy);  
+                SimpleDateFormat f = new SimpleDateFormat("dd-MMM-yyyy");
+                Date d = f.parse(strDate);
+                long todayDate = d.getTime();
                 long dateLong = date.getDate().getTime();
-                if(dateLong >= 0){
+                if(dateLong >= 0 && dateLong >= todayDate){
                     return true;
+                }else{
+                    JOptionPane.showMessageDialog(null,"Select a valid date!");
+                    return false;
                 }
             }catch(Exception err){
                 JOptionPane.showMessageDialog(null, "You are missing due date");
@@ -51,7 +64,6 @@ public class Utils {
             }
             
         }    
-        return false;
     }
     public static void openClassFromLink(String URL) throws IOException{
         switch(getUserSO().toLowerCase()){
